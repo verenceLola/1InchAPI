@@ -1,4 +1,4 @@
-import { Divider } from "@/components/atoms";
+import { Divider, SwapButton } from "@/components/atoms";
 import { CoinInput } from "@/components/molecules";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
@@ -10,15 +10,10 @@ const Container = styled.div`
   align-items: center;
   padding: 0.625rem 1.875rem 1.875rem;
   gap: 1.375rem;
-  background: radial-gradient(
-    90.16% 143.01% at 15.32% 21.04%,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(4, 4, 4, 0) 100%
-  );
+  background: radial-gradient(#e66465, #9198e5);
   backdrop-filter: blur(1.25rem);
   border-radius: 1.875rem;
-
-  //   height: 556px;
+  aspect-ratio: 464/556;
 `;
 
 const QuickTradeContainer = styled.div`
@@ -130,6 +125,7 @@ export const TradingComponent = ({ coins }: IProps) => {
           <QuickTradeButton key={index}>{option * 100}%</QuickTradeButton>
         ))}
       </QuickTradeContainer>
+      <SwapButton onClick={console.log} />
     </Container>
   );
 };
