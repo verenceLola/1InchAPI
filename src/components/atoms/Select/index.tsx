@@ -48,31 +48,30 @@ const CoinItem = styled.div`
 interface IProps {
   coins: ICoin[];
   onSelect: (address: string) => void;
+  selectedCoin: string;
 }
 
-export const CoinSelect = ({ coins = [], onSelect }: IProps) => {
+export const CoinSelect = ({ coins = [], onSelect, selectedCoin }: IProps) => {
   const [open, setOpen] = useState(false);
-
-  const [selected, setSelected] = useState<ICoin>(coins?.[0]);
 
   const onOpenDropDown = () => {
     setOpen((prevState) => !prevState);
   };
 
   const onSelectCoin = (address: string) => {
-    const selectedCoin = coins.find((x) => x.address === address);
-
-    if (selectedCoin) {
-      setSelected(selectedCoin);
-    }
-
     onSelect(address);
   };
 
   return (
     <Container>
       <SelectContainer>
-        {selected && <Coin details={selected} />}
+        {selectedCoin && (
+          <Coin
+            details={
+              coins.find((x) => x.address === selectedCoin) ?? coins?.[0]
+            }
+          />
+        )}
         <ArrowDownIcon
           onClick={onOpenDropDown}
           style={{ marginTop: -4, cursor: "pointer" }}

@@ -63,37 +63,38 @@ const Input = styled.input`
 interface IProps {
   variant: "sell" | "buy";
   coins: ICoin[];
+  onChange: (
+    event: ChangeEvent<HTMLInputElement>,
+    variant: "sell" | "buy"
+  ) => void;
+  amount: { value: number; usdcEstimate: number; address: string };
 }
 
-export const CoinInput = ({ variant, coins }: IProps) => {
-  const [amount, setAmount] = useState<{ value: number; usdcEstimate: number }>(
-    { value: 0, usdcEstimate: 0 }
-  );
-
-  const onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    if (Number.isInteger(value) || parseFloat(value)) {
-      setAmount((prevState) => ({ ...prevState, value: parseFloat(value) }));
-    }
-    if (value === "") {
-      setAmount((prevState) => ({ ...prevState, value: 0, usdcEstimate: 0 }));
-    }
-  };
-
-  const onCoinChange = (address: string) => {
-    console.log({ address });
+export const CoinInput = ({ variant, coins, onChange, amount }: IProps) => {
+  const onCoinChange = (address: string, action: "buy" | "sell") => {
+    // calculate USDC equivalent
+    console.log({ address, action });
   };
 
   return (
     <Container>
       <InputInfoContainer>
-        <USDCEstimate>~$1,200,30</USDCEstimate>
-        <Input value={amount.value} onChange={onChange} />
+        <USDCEstimate>~$ {amount.usdcEstimate}</USDCEstimate>
+        <Input
+          readOnly={variant === "sell"}
+          value={amount.value}
+          onChange={(event) => onChange(event, variant)}
+        />
       </InputInfoContainer>
       <CoinInfoContainer>
         <Pill text="min" />
         <CoinContainer>
           <ActionText>{variant === "buy" ? "You buy" : "You sell"}</ActionText>
-          <CoinSelect onSelect={onCoinChange} coins={coins} />
+          <CoinSelect
+            selectedCoin={amount.address}
+            onSelect={(address) => onCoinChange(address, variant)}
+            coins={coins}
+          />
         </CoinContainer>
       </CoinInfoContainer>
     </Container>

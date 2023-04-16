@@ -1,9 +1,8 @@
-import { CoinSelect, SwapButton } from "@/components/atoms";
-import { CoinInput } from "@/components/molecules";
+import { TradingComponent } from "@/components/organisms";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
 
-const Container = styled.main`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,9 +46,7 @@ const coins: ICoin[] = [
 export default function Home() {
   return (
     <Container>
-      <CoinInput coins={coins} variant="sell" />
-      <CoinSelect coins={coins} />
-      <SwapButton onClick={console.log} />
+      <TradingComponent coins={coins} />
     </Container>
   );
 }
