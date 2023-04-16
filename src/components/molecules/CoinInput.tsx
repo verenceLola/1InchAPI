@@ -9,6 +9,8 @@ const Container = styled.div`
   padding: 0.875rem 1.125rem;
   gap: 1rem;
   border-radius: 1.5rem;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const InputInfoContainer = styled.div`
@@ -68,14 +70,16 @@ interface IProps {
     variant: "sell" | "buy"
   ) => void;
   amount: { value: number; usdcEstimate: number; address: string };
+  onCoinChange: (address: string, action: "buy" | "sell") => void;
 }
 
-export const CoinInput = ({ variant, coins, onChange, amount }: IProps) => {
-  const onCoinChange = (address: string, action: "buy" | "sell") => {
-    // calculate USDC equivalent
-    console.log({ address, action });
-  };
-
+export const CoinInput = ({
+  variant,
+  coins,
+  onChange,
+  amount,
+  onCoinChange,
+}: IProps) => {
   return (
     <Container>
       <InputInfoContainer>
@@ -87,7 +91,7 @@ export const CoinInput = ({ variant, coins, onChange, amount }: IProps) => {
         />
       </InputInfoContainer>
       <CoinInfoContainer>
-        <Pill text="min" />
+        {variant === "buy" && <Pill text="min" />}
         <CoinContainer>
           <ActionText>{variant === "buy" ? "You buy" : "You sell"}</ActionText>
           <CoinSelect

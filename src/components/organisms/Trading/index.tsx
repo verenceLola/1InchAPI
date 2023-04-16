@@ -2,7 +2,7 @@ import { Divider } from "@/components/atoms";
 import { CoinInput } from "@/components/molecules";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useId, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -18,8 +18,27 @@ const Container = styled.div`
   backdrop-filter: blur(1.25rem);
   border-radius: 1.875rem;
 
-  height: 556px;
+  //   height: 556px;
 `;
+
+const QuickTradeContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+`;
+
+const QuickTradeButton = styled.button`
+  padding: 0.5rem 1.8125rem;
+  background: #101010;
+  text-transform: capitalize;
+  color: #637488;
+  border: 1.5px solid #1d2a43;
+  border-radius: 0.5rem;
+  cursor: pointer;
+`;
+
+const QUICK_TRADE_OPTIONS = [0.25, 0.5, 0.75, 1];
 
 interface IProps {
   coins: ICoin[];
@@ -74,6 +93,13 @@ export const TradingComponent = ({ coins }: IProps) => {
     }
   };
 
+  const onCoinChange = (newAddress: string, action: "sell" | "buy") => {
+    setTrade((prevState) => ({
+      ...prevState,
+      [action]: { ...prevState[action], address: newAddress },
+    }));
+  };
+
   const onSwap = () => {
     setTrade((prevState) => ({
       ...prevState,
@@ -89,6 +115,7 @@ export const TradingComponent = ({ coins }: IProps) => {
         amount={trade.buy}
         coins={coins}
         variant="buy"
+        onCoinChange={onCoinChange}
       />
       <Divider onClick={onSwap} />
       <CoinInput
@@ -96,7 +123,13 @@ export const TradingComponent = ({ coins }: IProps) => {
         amount={trade.sell}
         coins={coins}
         variant="sell"
+        onCoinChange={onCoinChange}
       />
+      <QuickTradeContainer>
+        {QUICK_TRADE_OPTIONS.map((option, index) => (
+          <QuickTradeButton key={index}>{option * 100}%</QuickTradeButton>
+        ))}
+      </QuickTradeContainer>
     </Container>
   );
 };
