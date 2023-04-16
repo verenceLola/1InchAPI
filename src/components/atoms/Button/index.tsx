@@ -6,6 +6,10 @@ const Button = styled.button`
   padding: 1rem 2rem;
   width: 100%;
   border: 1px solid transparent;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 130%;
 
   &:hover {
     filter: brightness(0.9);

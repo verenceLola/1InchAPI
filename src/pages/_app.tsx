@@ -1,9 +1,9 @@
 import { Global, css } from "@emotion/react";
 import type { AppProps } from "next/app";
 
-import localFont from "@next/font/local";
+import { Inter } from "@next/font/google";
 
-const circularStdFont = localFont({ src: "./CircularStd.otf" });
+const circularStdFont = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import { ArrowDownIcon } from "../Icons";
 import { Coin } from "../Coin";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ICoin } from "@/models";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  position: relative;
 `;
 
 const SelectContainer = styled.div`
@@ -23,6 +24,8 @@ const CoinsList = styled.div<{ open: boolean }>`
   display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   gap: 0.5rem;
+  position: absolute;
+  top: 45px;
   border-radius: 0.25rem 0.25rem;
   background-color: #141822;
   isolation: isolate;
@@ -44,11 +47,13 @@ const CoinItem = styled.div`
 
 interface IProps {
   coins: ICoin[];
+  onSelect: (address: string) => void;
 }
 
-export const CoinSelect = ({ coins }: IProps) => {
+export const CoinSelect = ({ coins = [], onSelect }: IProps) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<ICoin>(coins[0]);
+
+  const [selected, setSelected] = useState<ICoin>(coins?.[0]);
 
   const onOpenDropDown = () => {
     setOpen((prevState) => !prevState);
@@ -60,13 +65,18 @@ export const CoinSelect = ({ coins }: IProps) => {
     if (selectedCoin) {
       setSelected(selectedCoin);
     }
+
+    onSelect(address);
   };
 
   return (
     <Container>
       <SelectContainer>
         {selected && <Coin details={selected} />}
-        <ArrowDownIcon onClick={onOpenDropDown} style={{ marginTop: -4 }} />
+        <ArrowDownIcon
+          onClick={onOpenDropDown}
+          style={{ marginTop: -4, cursor: "pointer" }}
+        />
       </SelectContainer>
       <CoinsList open={open}>
         {coins.map((coin) => (

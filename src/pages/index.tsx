@@ -1,4 +1,5 @@
 import { CoinSelect, SwapButton } from "@/components/atoms";
+import { CoinInput } from "@/components/molecules";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
 
@@ -46,6 +47,7 @@ const coins: ICoin[] = [
 export default function Home() {
   return (
     <Container>
+      <CoinInput coins={coins} variant="sell" />
       <CoinSelect coins={coins} />
       <SwapButton onClick={console.log} />
     </Container>
