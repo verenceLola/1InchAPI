@@ -1,4 +1,4 @@
-import { CoinSelect } from "@/components/atoms";
+import { CoinSelect, SwapButton } from "@/components/atoms";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
 
@@ -47,6 +47,7 @@ export default function Home() {
   return (
     <Container>
       <CoinSelect coins={coins} />
+      <SwapButton onClick={console.log} />
     </Container>
   );
 }
