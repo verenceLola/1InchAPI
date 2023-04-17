@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ArrowDownIcon } from "../Icons";
+import { ChevronDownIcon } from "../Icons";
 import { Coin } from "../Coin";
 import { useEffect, useMemo, useState } from "react";
 import { ICoin } from "@/models";
@@ -72,7 +72,7 @@ export const CoinSelect = ({ coins = [], onSelect, selectedCoin }: IProps) => {
             }
           />
         )}
-        <ArrowDownIcon
+        <ChevronDownIcon
           onClick={onOpenDropDown}
           style={{ marginTop: -4, cursor: "pointer" }}
         />

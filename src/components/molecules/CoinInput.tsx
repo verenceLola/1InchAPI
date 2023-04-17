@@ -56,6 +56,7 @@ const Input = styled.input`
   font-weight: 500;
   font-size: 1.5em;
   line-height: 2.625em;
+  max-width: 200px;
 
   &:active {
     border: none;

@@ -1,8 +1,9 @@
 import { Divider, SwapButton } from "@/components/atoms";
-import { CoinInput } from "@/components/molecules";
+import { RefreshIcon, SettingsIcon } from "@/components/atoms/Icons";
+import { CoinInput, ConversionInput } from "@/components/molecules";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
-import { ChangeEvent, useId, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +32,15 @@ const QuickTradeButton = styled.button`
   border: 1.5px solid #1d2a43;
   border-radius: 0.5rem;
   cursor: pointer;
+`;
+
+const Menu = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
+  padding-block: 1rem;
 `;
 
 const QUICK_TRADE_OPTIONS = [0.25, 0.5, 0.75, 1];
@@ -103,8 +113,20 @@ export const TradingComponent = ({ coins }: IProps) => {
     }));
   };
 
+  const onRefresh = () => {
+    console.log("refreshing");
+  };
+
+  const onOpenSettings = () => {
+    console.log("opening settings");
+  };
+
   return (
     <Container>
+      <Menu>
+        <RefreshIcon style={{ cursor: "pointer" }} onClick={onRefresh} />
+        <SettingsIcon style={{ cursor: "pointer" }} onClick={onOpenSettings} />
+      </Menu>
       <CoinInput
         onChange={onChange}
         amount={trade.buy}
@@ -125,6 +147,11 @@ export const TradingComponent = ({ coins }: IProps) => {
           <QuickTradeButton key={index}>{option * 100}%</QuickTradeButton>
         ))}
       </QuickTradeContainer>
+      <ConversionInput
+        from={{ symbol: "ETH" }}
+        usdcEstimate={2030.4}
+        to={{ symbol: "ARB", value: 2031.21 }}
+      />
       <SwapButton onClick={console.log} />
     </Container>
   );

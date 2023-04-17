@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export const ArrowDownIcon = (props: SVGProps<SVGSVGElement>) => (
+export const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width="12"
     height="7"
