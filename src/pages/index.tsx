@@ -9,6 +9,7 @@ const Container = styled.section`
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  position: relative;
 `;
 
 const coins: ICoin[] = [

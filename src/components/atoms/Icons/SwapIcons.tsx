@@ -9,30 +9,30 @@ export const SwapIcons = () => (
     <path
       d="M10 8L7 5L4 8"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M7 19V5"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M14 16L17 19L20 16"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M17 5V19"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

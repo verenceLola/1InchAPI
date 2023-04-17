@@ -23,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
           html,
           body {
             height: 100%;
+            background-color: #1e1e1e;
           }
 
           body {

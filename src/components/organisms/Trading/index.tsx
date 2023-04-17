@@ -11,10 +11,30 @@ const Container = styled.div`
   align-items: center;
   padding: 0.625rem 1.875rem 1.875rem;
   gap: 1.375rem;
-  background: radial-gradient(#e66465, #9198e5);
-  backdrop-filter: blur(1.25rem);
+  position: relative;
   border-radius: 1.875rem;
   aspect-ratio: 464/556;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background: radial-gradient(
+    circle,
+    rgba(255, 191, 64, 0.2) 50%,
+    rgba(30, 30, 30, 1) 100%
+  );
+
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 1.875rem;
+    isolation: isolate;
+    z-index: -1;
+    top: -4px;
+    bottom: -4px;
+    left: -4px;
+    right: -4px;
+    filter: opacity(0.2);
+    background: linear-gradient(135deg, #e5e54b 2.88%, #ef5322 98.14%);
+  }
 `;
 
 const QuickTradeContainer = styled.div`
