@@ -1,9 +1,10 @@
 import { Divider, SwapButton } from "@/components/atoms";
 import { RefreshIcon, SettingsIcon } from "@/components/atoms/Icons";
 import { CoinInput, ConversionInput } from "@/components/molecules";
+import { useGetTokens } from "@/hooks";
 import { ICoin } from "@/models";
 import styled from "@emotion/styled";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -71,30 +72,38 @@ interface IProps {
 
 interface ITradeState {
   buy: {
-    address: string;
+    address?: string;
     value: number;
     usdcEstimate: number;
   };
   sell: {
-    address: string;
+    address?: string;
     value: number;
     usdcEstimate: number;
   };
 }
 
-export const TradingComponent = ({ coins }: IProps) => {
+export const TradingComponent = () => {
+  const { data: coins } = useGetTokens();
+
   const [trade, setTrade] = useState<ITradeState>({
     buy: {
       value: 0,
       usdcEstimate: 0,
-      address: coins?.[0].address,
     },
     sell: {
       value: 0,
       usdcEstimate: 0,
-      address: coins?.[1].address,
     },
   });
+
+  useEffect(() => {
+    setTrade((prevState) => ({
+      ...prevState,
+      buy: { ...prevState.buy, address: coins?.[0]?.address },
+      sell: { ...prevState.buy, address: coins?.[2]?.address },
+    }));
+  }, [coins]);
 
   const onChange = (
     { target: { value } }: ChangeEvent<HTMLInputElement>,
