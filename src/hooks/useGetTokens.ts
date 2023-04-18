@@ -1,10 +1,16 @@
 import { ICoin } from "@/models";
+import axios from "axios";
 import useSwr from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export const useGetTokens = () => {
-  const { data, error, isLoading } = useSwr<ICoin[]>("/api/tokens", fetcher);
+  const { data, error, isLoading } = useSwr<ICoin[]>("/api/tokens", fetcher, {
+    suspense: true,
+    fallbackData: [],
+  });
 
-  return { data, error, isLoading };
+  const coins = data as ICoin[];
+
+  return { data: coins, error, isLoading };
 };

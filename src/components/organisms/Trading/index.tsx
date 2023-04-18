@@ -1,8 +1,7 @@
 import { Divider, SwapButton } from "@/components/atoms";
 import { RefreshIcon, SettingsIcon } from "@/components/atoms/Icons";
 import { CoinInput, ConversionInput } from "@/components/molecules";
-import { useGetTokens } from "@/hooks";
-import { ICoin } from "@/models";
+import { useGetTokens, useQuote } from "@/hooks";
 import styled from "@emotion/styled";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -66,20 +65,21 @@ const Menu = styled.nav`
 
 const QUICK_TRADE_OPTIONS = [0.25, 0.5, 0.75, 1];
 
-interface IProps {
-  coins: ICoin[];
-}
+// We can get this from the fetched coins. For simplicity.
+const USDC_ADDRESS = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
 
 interface ITradeState {
   buy: {
-    address?: string;
+    address: string;
     value: number;
     usdcEstimate: number;
+    symbol: string;
   };
   sell: {
-    address?: string;
+    address: string;
     value: number;
     usdcEstimate: number;
+    symbol: string;
   };
 }
 
@@ -90,19 +90,69 @@ export const TradingComponent = () => {
     buy: {
       value: 0,
       usdcEstimate: 0,
+      address: "",
+      symbol: "",
     },
     sell: {
       value: 0,
       usdcEstimate: 0,
+      address: "",
+      symbol: "",
     },
   });
 
+  const { data: buyingQuote } = useQuote({
+    amount: `${trade.buy.value}`,
+    fromTokenAddress: trade.buy.address,
+    toTokenAddress: USDC_ADDRESS,
+  });
+
+  const { data: sellingQuote } = useQuote({
+    amount: `${trade.sell.value}`,
+    fromTokenAddress: trade.sell.address,
+    toTokenAddress: USDC_ADDRESS,
+  });
+
   useEffect(() => {
-    setTrade((prevState) => ({
-      ...prevState,
-      buy: { ...prevState.buy, address: coins?.[0]?.address },
-      sell: { ...prevState.buy, address: coins?.[2]?.address },
-    }));
+    if (buyingQuote?.toTokenAmount) {
+      setTrade((prevState) => ({
+        ...prevState,
+        buy: {
+          ...prevState.buy,
+          usdcEstimate: parseInt(buyingQuote.toTokenAmount!),
+        },
+      }));
+    }
+  }, [buyingQuote?.toTokenAmount]);
+
+  useEffect(() => {
+    if (sellingQuote?.toTokenAmount) {
+      setTrade((prevState) => ({
+        ...prevState,
+        sell: {
+          ...prevState.sell,
+          usdcEstimate: parseInt(sellingQuote.toTokenAmount!),
+        },
+      }));
+    }
+  }, [sellingQuote?.toTokenAmount]);
+
+  useEffect(() => {
+    if (coins?.[0] && coins?.[1]) {
+      setTrade((prevState) => ({
+        ...prevState,
+        buy: {
+          ...prevState.buy,
+          address: coins[0].address,
+          symbol: coins[0].symbol,
+        },
+        sell: {
+          ...prevState.buy,
+          address: coins[1].address,
+          symbol: coins[1].symbol,
+        },
+      }));
+    }
   }, [coins]);
 
   const onChange = (
@@ -177,9 +227,8 @@ export const TradingComponent = () => {
         ))}
       </QuickTradeContainer>
       <ConversionInput
-        from={{ symbol: "ETH" }}
-        usdcEstimate={2030.4}
-        to={{ symbol: "ARB", value: 2031.21 }}
+        from={{ symbol: trade.buy.symbol, address: trade.buy.address }}
+        to={{ symbol: trade.sell.symbol, address: trade.sell.address }}
       />
       <SwapButton onClick={console.log} />
     </Container>

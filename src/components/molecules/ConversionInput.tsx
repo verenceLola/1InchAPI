@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { ChevronDownIcon, InfoIcon, YellowIcon } from "../atoms/Icons";
+import { useQuote } from "@/hooks";
 
 const Container = styled.div`
   display: flex;
@@ -41,26 +42,34 @@ const Balance = styled.span`
 interface IProps {
   from: {
     symbol: string;
+    address: string;
   };
   to: {
     symbol: string;
-    value: number;
+    address: string;
   };
-  usdcEstimate: number;
 }
 
-export const ConversionInput = ({ from, to, usdcEstimate }: IProps) => (
-  <Container>
-    <ConversionRateContainer>
-      <InfoIcon />
-      <ConversionRate>
-        1 {from.symbol} = {to.value} {to.symbol} (${usdcEstimate}){" "}
-      </ConversionRate>
-    </ConversionRateContainer>
-    <DropDownContainer>
-      <YellowIcon />
-      <Balance>$0</Balance>
-      <ChevronDownIcon />
-    </DropDownContainer>
-  </Container>
-);
+export const ConversionInput = ({ from, to, usdcEstimate }: IProps) => {
+    const { data: conversion } = useQuote({
+        amount: `${1000000}`,
+        fromTokenAddress: from.address,
+        toTokenAddress: to.address,
+      });
+
+  return (
+    <Container>
+      <ConversionRateContainer>
+        <InfoIcon />
+        <ConversionRate>
+          1 {from.symbol} = {conversion.toTokenAmount} {to.symbol} (${usdcEstimate}){" "}
+        </ConversionRate>
+      </ConversionRateContainer>
+      <DropDownContainer>
+        <YellowIcon />
+        <Balance>$0</Balance>
+        <ChevronDownIcon />
+      </DropDownContainer>
+    </Container>
+  );
+};

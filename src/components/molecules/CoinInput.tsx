@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { CoinSelect, Pill } from "../atoms";
 import { ICoin } from "@/models";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -84,7 +84,7 @@ export const CoinInput = ({
   return (
     <Container>
       <InputInfoContainer>
-        <USDCEstimate>~$ {amount.usdcEstimate}</USDCEstimate>
+        <USDCEstimate>~$ {amount?.usdcEstimate}</USDCEstimate>
         <Input
           readOnly={variant === "sell"}
           value={amount.value}

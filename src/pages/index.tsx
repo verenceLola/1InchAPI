@@ -1,5 +1,6 @@
 import { TradingComponent } from "@/components/organisms";
 import styled from "@emotion/styled";
+import { Suspense } from "react";
 
 const Container = styled.section`
   display: flex;
@@ -11,10 +12,12 @@ const Container = styled.section`
   position: relative;
 `;
 
-export default function Home() {
-  return (
-    <Container>
+const Home = () => (
+  <Container>
+    <Suspense fallback={<div>loading ...</div>}>
       <TradingComponent />
-    </Container>
-  );
-}
+    </Suspense>
+  </Container>
+);
+
+export default Home;
